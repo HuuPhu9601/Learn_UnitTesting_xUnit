@@ -33,8 +33,11 @@ namespace NetworkUtility.Tests.PingTests
             result.Should().Contain("Success",Exactly.Once()); //kiểm trs chứa
         }
 
-        [Theory]
-        [InlineData(1,1, 2)]//đặt các tham số truền vào và kết quả mong muốn
+        [Theory] //đánh dấu loại kiểm tra dùng nhiều trường hợp kiểm thử
+        //InlineData đi cùng với [Theory]
+        //Mỗi InlineData là một trường hợp kiểm thử
+        //Tham số truyền vào sẽ là các biến truyền vào hàm và nên có một expected result
+        [InlineData(1,1, 2)]
         [InlineData(2,2, 4)]
         public void NetworkService_PingTimeout_ReturnInt(int a, int b, int expected)
         {
@@ -51,13 +54,10 @@ namespace NetworkUtility.Tests.PingTests
         [Fact]
         public void NetworkService_lastpingDate_ReturnDate()
         {
-
-            //Act
             var result = _pingService.LastPingDate();
-
             //Assert
-            result.Should().BeAfter(1.January(2010));
-            result.Should().BeBefore(1.January(2030));
+            result.Should().BeAfter(1.January(2010)); //kiểm tra thời gian lớn hơn  ngày 1 tháng1 năm 2010
+            result.Should().BeBefore(1.January(2030)); //kiểm tra thời gian nhỏ hơn  ngày 1 tháng 1 năm 2030
         }
 
         [Fact]
@@ -71,9 +71,9 @@ namespace NetworkUtility.Tests.PingTests
             var result = _pingService.GetPingOptions();
 
             //Assert
-            result.Should().BeOfType<PingOptions>();
-            result.Should().BeEquivalentTo(expected);
-            result.Ttl.Should().Be(1);
+            result.Should().BeOfType<PingOptions>(); //kiểm tra kiểu dữ liệu của đối tượng
+            result.Should().BeEquivalentTo(expected); //so sánh giá trị của hai cấu trúc dữ liệu, bất kể thứ tự các phần tử, dùng để so sánh các obj có cấu trúc phức tạp
+            result.Ttl.Should().Be(1);//so sánh bằng giá trị
         }
 
         [Fact]
@@ -88,8 +88,8 @@ namespace NetworkUtility.Tests.PingTests
 
             //Assert
             //result.Should().BeOfType<IEnumerable<PingOptions>>();
-            result.Should().ContainEquivalentOf(expected);
-            result.Should().Contain(x=>x.DontFragment == true);
+            result.Should().ContainEquivalentOf(expected); //kiểm tra danh sách có chứa phần tử hay không
+            result.Should().Contain(x=>x.DontFragment == true); //kiểm tra danh sách obj có chứa thuộc tính giá trị mong đợi hay không
         }
     }
 }
